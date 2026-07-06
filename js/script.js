@@ -10,20 +10,30 @@ document.addEventListener('DOMContentLoaded', function () {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     document.getElementById('particles-js').appendChild(renderer.domElement);
 
-    const particlesCount = 1200;
+    const particlesCount = 2000;
     const positions = new Float32Array(particlesCount * 3);
     const colors = new Float32Array(particlesCount * 3);
     const sizes = new Float32Array(particlesCount);
 
     for (let i = 0; i < particlesCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 12;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 5;
-        const c = 0.3 + Math.random() * 0.3;
-        colors[i * 3] = 0.5 + Math.random() * 0.2;
-        colors[i * 3 + 1] = 0.2 + Math.random() * 0.2;
-        colors[i * 3 + 2] = 0.7 + Math.random() * 0.3;
-        sizes[i] = Math.random() * 2 + 0.5;
+        positions[i * 3] = (Math.random() - 0.5) * 15;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 8;
+        const colorType = Math.random();
+        if (colorType < 0.3) {
+            colors[i * 3] = 0.8 + Math.random() * 0.2;
+            colors[i * 3 + 1] = 0.7 + Math.random() * 0.3;
+            colors[i * 3 + 2] = 1.0;
+        } else if (colorType < 0.6) {
+            colors[i * 3] = 1.0;
+            colors[i * 3 + 1] = 0.9 + Math.random() * 0.1;
+            colors[i * 3 + 2] = 0.6 + Math.random() * 0.2;
+        } else {
+            colors[i * 3] = 0.5 + Math.random() * 0.3;
+            colors[i * 3 + 1] = 0.3 + Math.random() * 0.3;
+            colors[i * 3 + 2] = 0.8 + Math.random() * 0.2;
+        }
+        sizes[i] = Math.random() * 3 + 0.5;
     }
 
     const particlesGeometry = new THREE.BufferGeometry();
@@ -31,13 +41,29 @@ document.addEventListener('DOMContentLoaded', function () {
     particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
+    // Star twinkle texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
+    gradient.addColorStop(0.5, 'rgba(200,180,255,0.3)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 32, 32);
+    const starTexture = new THREE.CanvasTexture(canvas);
+
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.025,
+        size: 0.035,
+        map: starTexture,
         transparent: true,
         opacity: 0.9,
         blending: THREE.AdditiveBlending,
         vertexColors: true,
         sizeAttenuation: true,
+        depthWrite: false,
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -108,6 +134,18 @@ document.addEventListener('DOMContentLoaded', function () {
         particlesMesh.rotation.x += mouseY * 0.0001;
         particlesMesh.rotation.y += mouseX * 0.0001;
         connectionLine.rotation.copy(particlesMesh.rotation);
+
+        // Star twinkle
+        const time = Date.now() * 0.001;
+        const size = particlesGeometry.attributes.size;
+        if (size) {
+            const array = size.array;
+            for (let i = 0; i < array.length; i++) {
+                array[i] = (sizes[i] * (0.5 + 0.5 * Math.sin(time * 1.5 + i * 0.5)));
+            }
+            size.needsUpdate = true;
+        }
+
         renderer.render(scene, camera);
     }
 
@@ -369,6 +407,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     glow.classList.add('visible');
                 } else {
                     glow.classList.remove('visible');
+                }
+            }
+
+            // Astronaut tracking: find active section
+            if (inView) {
+                const astronaut = document.getElementById('astronaut');
+                if (astronaut) {
+                    const sectionCenter = section.offsetTop + section.offsetHeight / 2;
+                    const scrollOffset = window.innerHeight * 0.15;
+                    const astroY = sectionCenter - scrollOffset;
+                    astronaut.style.top = `${astroY}px`;
                 }
             }
         });
