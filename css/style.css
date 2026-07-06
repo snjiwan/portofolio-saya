@@ -2435,6 +2435,61 @@ body {
 }
 
 /* ============================================
+   MOUSE TRAIL GALAXY
+   ============================================ */
+.trail-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    animation: trailFade 0.8s ease-out forwards;
+}
+
+@keyframes trailFade {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.2) translateY(-20px);
+    }
+}
+
+/* ============================================
+   3D SKILL TREE SECTION
+   ============================================ */
+.skill-tree-section {
+    background: radial-gradient(ellipse at 50% 40%, rgba(124,58,237,0.04) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+}
+
+#skill-tree-canvas {
+    width: 100%;
+    height: 500px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 800px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+}
+
+.skill-tree-hint {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+.skill-tree-hint i {
+    color: var(--primary-light);
+    margin-right: 6px;
+}
+
+/* ============================================
    LOADING BLUR FOR IMAGES
    ============================================ */
 img.loading-blur {

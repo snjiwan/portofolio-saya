@@ -273,6 +273,64 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
+    // MOUSE TRAIL GALAXY
+    // ==========================================
+    const trailColors = ['#7c3aed', '#06b6d4', '#a78bfa', '#f59e0b', '#8b5cf6'];
+    let trailTimer;
+
+    document.addEventListener('mousemove', (e) => {
+        clearTimeout(trailTimer);
+        trailTimer = setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'trail-particle';
+            const size = Math.random() * 6 + 3;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = (e.clientX - size / 2) + 'px';
+            particle.style.top = (e.clientY - size / 2) + 'px';
+            particle.style.background = trailColors[Math.floor(Math.random() * trailColors.length)];
+            particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.background}`;
+            particle.style.borderRadius = '50%';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 800);
+        }, 30);
+    });
+
+    // ==========================================
+    // TEXT SCRAMBLE HOVER
+    // ==========================================
+    function setupTextScramble() {
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()1234567890';
+        const titles = document.querySelectorAll('.section-title, .hero-title');
+
+        titles.forEach((title) => {
+            const originalText = title.textContent.trim();
+
+            title.addEventListener('mouseenter', () => {
+                let iterations = 0;
+                const interval = setInterval(() => {
+                    title.textContent = originalText
+                        .split('')
+                        .map((char, index) => {
+                            if (index < iterations) return originalText[index];
+                            if (char === ' ') return ' ';
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join('');
+
+                    iterations += 1 / 3;
+                    if (iterations >= originalText.length) {
+                        clearInterval(interval);
+                        title.textContent = originalText;
+                    }
+                }, 30);
+            });
+        });
+    }
+
+    setupTextScramble();
+
+    // ==========================================
     // 3D TILT ON CARDS
     // ==========================================
     const tiltCards = document.querySelectorAll('.project-card, .skill-card, .award-card');
@@ -642,6 +700,219 @@ document.addEventListener('DOMContentLoaded', function () {
                 btn.disabled = false;
             }, 3000);
         });
+    }
+
+    // ==========================================
+    // 3D SKILL TREE
+    // ==========================================
+    function initSkillTree() {
+        const container = document.getElementById('skill-tree-canvas');
+        if (!container) return;
+
+        const width = container.clientWidth;
+        const height = container.clientHeight || 500;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+        camera.position.z = 8;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const skills = [
+            'HTML', 'CSS', 'JS', 'jQuery', 'Bootstrap', 'WordPress',
+            'WooCommerce', 'ACF', 'PHP', 'Laravel', 'Python', 'MySQL',
+            'Flutter', 'Git', 'Bitbucket', 'Figma', 'VS Code'
+        ];
+
+        const group = new THREE.Group();
+        const colors = [0x7c3aed, 0x06b6d4, 0xa78bfa, 0xf59e0b, 0x8b5cf6];
+        const skillObjects = [];
+
+        skills.forEach((name, i) => {
+            const angle = (i / skills.length) * Math.PI * 2;
+            const radius = 2 + Math.random() * 1.5;
+            const yOffset = (Math.random() - 0.5) * 3;
+
+            const sphereGeom = new THREE.SphereGeometry(0.25 + Math.random() * 0.1, 16, 16);
+            const color = colors[i % colors.length];
+            const material = new THREE.MeshBasicMaterial({ color });
+            const sphere = new THREE.Mesh(sphereGeom, material);
+
+            sphere.position.x = Math.cos(angle) * radius;
+            sphere.position.z = Math.sin(angle) * radius;
+            sphere.position.y = yOffset;
+            sphere.userData = {
+                angle: angle,
+                radius: radius,
+                yOffset: yOffset,
+                speed: 0.002 + Math.random() * 0.003,
+                name: name,
+                color: color,
+            };
+            group.add(sphere);
+            skillObjects.push(sphere);
+
+            // Connect to center
+            const lineMat = new THREE.LineBasicMaterial({
+                color: color,
+                transparent: true,
+                opacity: 0.1,
+            });
+            const lineGeom = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(0, 0, 0),
+                sphere.position.clone(),
+            ]);
+            const line = new THREE.Line(lineGeom, lineMat);
+            group.add(line);
+        });
+
+        // Center glow
+        const glowGeom = new THREE.SphereGeometry(0.4, 32, 32);
+        const glowMat = new THREE.MeshBasicMaterial({
+            color: 0x7c3aed,
+            transparent: true,
+            opacity: 0.6,
+        });
+        const glowSphere = new THREE.Mesh(glowGeom, glowMat);
+        group.add(glowSphere);
+
+        scene.add(group);
+
+        // Interaction
+        let isDragging = false;
+        let prevMouseX = 0;
+        let prevMouseY = 0;
+        let rotX = 0;
+        let rotY = 0;
+
+        renderer.domElement.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        renderer.domElement.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - prevMouseX;
+                const dy = e.clientY - prevMouseY;
+                rotX += dy * 0.01;
+                rotY += dx * 0.01;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+            }
+        });
+
+        // Touch support
+        renderer.domElement.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            const touch = e.touches[0];
+            prevMouseX = touch.clientX;
+            prevMouseY = touch.clientY;
+        });
+
+        renderer.domElement.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const touch = e.touches[0];
+                const dx = touch.clientX - prevMouseX;
+                const dy = touch.clientY - prevMouseY;
+                rotX += dy * 0.01;
+                rotY += dx * 0.01;
+                prevMouseX = touch.clientX;
+                prevMouseY = touch.clientY;
+            }
+        });
+
+        renderer.domElement.addEventListener('touchend', () => { isDragging = false; });
+
+        let hoveredSphere = null;
+        const tooltip = document.createElement('div');
+        tooltip.style.cssText =
+            'position:fixed;background:rgba(10,10,15,0.9);color:#e2e8f0;padding:6px 14px;border-radius:8px;font-size:13px;pointer-events:none;z-index:999;border:1px solid rgba(124,58,237,0.3);display:none;';
+        document.body.appendChild(tooltip);
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        renderer.domElement.addEventListener('mousemove', (e) => {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            skillObjects.forEach((sphere) => {
+                const data = sphere.userData;
+                data.angle += data.speed;
+                sphere.position.x = Math.cos(data.angle) * data.radius;
+                sphere.position.z = Math.sin(data.angle) * data.radius;
+                sphere.position.y = data.yOffset + Math.sin(Date.now() * 0.001 + data.angle) * 0.3;
+            });
+
+            group.rotation.x += (rotX - group.rotation.x) * 0.05;
+            group.rotation.y += (rotY - group.rotation.y) * 0.05;
+
+            // Raycaster hover
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(skillObjects);
+            if (intersects.length > 0) {
+                const obj = intersects[0].object;
+                if (hoveredSphere !== obj) {
+                    hoveredSphere = obj;
+                    tooltip.textContent = obj.userData.name;
+                    tooltip.style.display = 'block';
+                    renderer.domElement.style.cursor = 'pointer';
+                }
+            } else {
+                if (hoveredSphere) {
+                    hoveredSphere = null;
+                    tooltip.style.display = 'none';
+                    renderer.domElement.style.cursor = 'grab';
+                }
+            }
+
+            // Move tooltip
+            if (hoveredSphere) {
+                const pos = hoveredSphere.position.clone();
+                pos.project(camera);
+                const x = (pos.x * 0.5 + 0.5) * renderer.domElement.clientWidth + renderer.domElement.getBoundingClientRect().left;
+                const y = (-pos.y * 0.5 + 0.5) * renderer.domElement.clientHeight + renderer.domElement.getBoundingClientRect().top;
+                tooltip.style.left = (x + 16) + 'px';
+                tooltip.style.top = (y - 10) + 'px';
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight || 500;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+    }
+
+    // Observer for skill tree - init when visible
+    const skillTreeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                initSkillTree();
+                skillTreeObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const skillTreeContainer = document.getElementById('skill-tree');
+    if (skillTreeContainer) {
+        skillTreeObserver.observe(skillTreeContainer);
     }
 
     // ==========================================
