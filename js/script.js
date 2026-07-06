@@ -114,6 +114,30 @@ document.addEventListener('DOMContentLoaded', function () {
     animateParticles();
 
     // ==========================================
+    // POSITION SECTION NODES
+    // ==========================================
+    function positionNodes() {
+        const nodes = document.querySelectorAll('.section-node');
+        const sections = document.querySelectorAll('.section, .hero');
+        const docHeight = document.documentElement.scrollHeight;
+
+        nodes.forEach((node, i) => {
+            const section = sections[i];
+            if (section) {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const center = ((sectionTop + sectionHeight / 2) / docHeight) * 100;
+                node.style.top = `${center}%`;
+                node.style.position = 'absolute';
+                node.style.transform = 'translateY(-50%)';
+            }
+        });
+    }
+
+    positionNodes();
+    window.addEventListener('resize', positionNodes);
+
+    // ==========================================
     // TYPED.JS
     // ==========================================
     const typed = new Typed('#typed-text', {
@@ -284,6 +308,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const winHeight = window.innerHeight;
 
         if (scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -297,15 +323,27 @@ document.addEventListener('DOMContentLoaded', function () {
             backToTop.classList.remove('show');
         }
 
+        // Scroll connector glow position
+        const connectorGlow = document.querySelector('.connector-glow');
+        if (connectorGlow) {
+            const progress = scrollY / docHeight;
+            const maxTop = document.documentElement.scrollHeight - 200;
+            connectorGlow.style.top = `${scrollY * 0.85}px`;
+        }
+
+        // Section nodes & section glows
         const sections = document.querySelectorAll('.section, .hero');
         const navLinks = document.querySelectorAll('.nav-link');
+        const nodes = document.querySelectorAll('.section-node');
 
-        sections.forEach((section) => {
-            const top = section.offsetTop - 200;
+        sections.forEach((section, index) => {
+            const top = section.offsetTop - winHeight * 0.3;
             const bottom = top + section.offsetHeight;
             const id = section.getAttribute('id');
+            const inView = scrollY >= top && scrollY <= bottom;
 
-            if (scrollY >= top && scrollY <= bottom) {
+            // Nav links
+            if (inView) {
                 navLinks.forEach((link) => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${id}`) {
@@ -313,7 +351,28 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
             }
+
+            // Section nodes
+            const node = nodes[index];
+            if (node) {
+                if (inView) {
+                    node.classList.add('active');
+                } else {
+                    node.classList.remove('active');
+                }
+            }
+
+            // Section glow reveal
+            const glow = section.querySelector('.section-glow');
+            if (glow) {
+                if (inView) {
+                    glow.classList.add('visible');
+                } else {
+                    glow.classList.remove('visible');
+                }
+            }
         });
+
     });
 
     // ==========================================
