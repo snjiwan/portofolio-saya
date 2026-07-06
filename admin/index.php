@@ -181,6 +181,14 @@ $loggedIn = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] 
                 <p style="color: #64748b; font-size: 14px;">Memuat...</p>
             </div>
         </div>
+
+        <!-- Pesan Masuk -->
+        <div class="card">
+            <h2><i class="fas fa-envelope" style="color: #f59e0b;"></i> Pesan Masuk</h2>
+            <div id="messageList">
+                <p style="color: #64748b; font-size: 14px;">Memuat...</p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -298,7 +306,36 @@ $loggedIn = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] 
         }
     }
 
+    async function loadMessages() {
+        try {
+            const res = await fetch('../php/get_messages.php');
+            const data = await res.json();
+            const list = document.getElementById('messageList');
+
+            if (data.success && data.messages.length > 0) {
+                list.innerHTML = data.messages.map(m => `
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px;margin-bottom:12px;">
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+                            <div>
+                                <strong style="color:#a78bfa;">${m.name}</strong>
+                                <span style="color:#64748b;font-size:12px;margin-left:8px;">${m.email}</span>
+                            </div>
+                            <span style="color:#64748b;font-size:11px;">${m.received_at}</span>
+                        </div>
+                        <h4 style="font-size:14px;margin-bottom:6px;color:#e2e8f0;">${m.subject}</h4>
+                        <p style="font-size:13px;color:#94a3b8;line-height:1.6;">${m.message}</p>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '<p style="color: #64748b; font-size: 14px;">Belum ada pesan masuk.</p>';
+            }
+        } catch (err) {
+            document.getElementById('messageList').innerHTML = '<p style="color: #f87171; font-size: 14px;">Gagal memuat pesan.</p>';
+        }
+    }
+
     loadAwards();
+    loadMessages();
     </script>
 
 <?php else: ?>

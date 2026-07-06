@@ -152,6 +152,18 @@ document.addEventListener('DOMContentLoaded', function () {
     animateParticles();
 
     // ==========================================
+    // PAGE LOADER
+    // ==========================================
+    window.addEventListener('load', function () {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            setTimeout(function () {
+                loader.classList.add('hidden');
+            }, 600);
+        }
+    });
+
+    // ==========================================
     // POSITION SECTION NODES
     // ==========================================
     function positionNodes() {
@@ -576,24 +588,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const contactForm = document.getElementById('contactForm');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             const btn = this.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i> Terkirim!';
-                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                this.reset();
+            try {
+                const formData = new FormData(this);
+                const res = await fetch('php/send_message.php', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await res.json();
 
-                setTimeout(() => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Terkirim!';
+                    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    this.reset();
+                } else {
+                    alert('Error: ' + data.message);
                     btn.innerHTML = originalText;
-                    btn.style.background = '';
                     btn.disabled = false;
-                }, 3000);
-            }, 1500);
+                }
+            } catch (err) {
+                alert('Gagal mengirim pesan. Silakan coba lagi.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 3000);
         });
     }
 
