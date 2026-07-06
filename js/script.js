@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // ==========================================
-    // THREE.JS PARTICLE BACKGROUND
+    // THREE.JS PARTICLE NETWORK
     // ==========================================
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -10,31 +10,53 @@ document.addEventListener('DOMContentLoaded', function () {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     document.getElementById('particles-js').appendChild(renderer.domElement);
 
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2000;
-    const posArray = new Float32Array(particlesCount * 3);
-    const colorsArray = new Float32Array(particlesCount * 3);
+    const particlesCount = 1200;
+    const positions = new Float32Array(particlesCount * 3);
+    const colors = new Float32Array(particlesCount * 3);
+    const sizes = new Float32Array(particlesCount);
 
-    for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 10;
-        colorsArray[i] = Math.random() * 0.2 + 0.4;
+    for (let i = 0; i < particlesCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 12;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 5;
+        const c = 0.3 + Math.random() * 0.3;
+        colors[i * 3] = 0.5 + Math.random() * 0.2;
+        colors[i * 3 + 1] = 0.2 + Math.random() * 0.2;
+        colors[i * 3 + 2] = 0.7 + Math.random() * 0.3;
+        sizes[i] = Math.random() * 2 + 0.5;
     }
 
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.01,
+        size: 0.025,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.9,
         blending: THREE.AdditiveBlending,
         vertexColors: true,
+        sizeAttenuation: true,
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    camera.position.z = 3;
+    // Connection lines
+    const connectionMaterial = new THREE.LineBasicMaterial({
+        color: 0x7c3aed,
+        transparent: true,
+        opacity: 0.08,
+    });
+
+    const connectionPositions = new Float32Array(particlesCount * 2 * 3);
+    const connectionGeometry = new THREE.BufferGeometry();
+    connectionGeometry.setAttribute('position', new THREE.BufferAttribute(connectionPositions, 3));
+    const connectionLine = new THREE.LineSegments(connectionGeometry, connectionMaterial);
+    scene.add(connectionLine);
+
+    camera.position.z = 3.5;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -50,11 +72,42 @@ document.addEventListener('DOMContentLoaded', function () {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    function updateConnections() {
+        const pos = particlesGeometry.attributes.position.array;
+        const connPos = connectionGeometry.attributes.position.array;
+        let idx = 0;
+        const connectDist = 0.35;
+        const maxLines = 3000;
+
+        for (let i = 0; i < particlesCount && idx < maxLines * 6; i++) {
+            for (let j = i + 1; j < particlesCount && idx < maxLines * 6; j++) {
+                const dx = pos[i * 3] - pos[j * 3];
+                const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
+                const dz = pos[i * 3 + 2] - pos[j * 3 + 2];
+                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                if (dist < connectDist) {
+                    connPos[idx] = pos[i * 3];
+                    connPos[idx + 1] = pos[i * 3 + 1];
+                    connPos[idx + 2] = pos[i * 3 + 2];
+                    connPos[idx + 3] = pos[j * 3];
+                    connPos[idx + 4] = pos[j * 3 + 1];
+                    connPos[idx + 5] = pos[j * 3 + 2];
+                    idx += 6;
+                }
+            }
+        }
+        connectionGeometry.attributes.position.needsUpdate = true;
+        connectionGeometry.setDrawRange(0, idx / 3);
+    }
+
+    updateConnections();
+
     function animateParticles() {
         requestAnimationFrame(animateParticles);
-        particlesMesh.rotation.y += 0.0003;
-        particlesMesh.rotation.x += mouseY * 0.0002;
-        particlesMesh.rotation.y += mouseX * 0.0002;
+        particlesMesh.rotation.y += 0.0002;
+        particlesMesh.rotation.x += mouseY * 0.0001;
+        particlesMesh.rotation.y += mouseX * 0.0001;
+        connectionLine.rotation.copy(particlesMesh.rotation);
         renderer.render(scene, camera);
     }
 
@@ -71,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
             'UI/UX Design Lover',
             'Sistem Informasi, S.Kom'
         ],
-        typeSpeed: 55,
-        backSpeed: 35,
+        typeSpeed: 50,
+        backSpeed: 30,
         backDelay: 2000,
         loop: true,
         showCursor: true,
@@ -87,6 +140,20 @@ document.addEventListener('DOMContentLoaded', function () {
         easing: 'ease-out-cubic',
         once: true,
         offset: 60,
+    });
+
+    // ==========================================
+    // SCROLL PROGRESS BAR
+    // ==========================================
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
     });
 
     // ==========================================
@@ -114,22 +181,100 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // MAGNETIC HOVER
+    // 3D TILT ON CARDS
     // ==========================================
-    const magneticElements = document.querySelectorAll('.btn, .social-icon, .project-card, .skill-card');
+    const tiltCards = document.querySelectorAll('.project-card, .skill-card, .award-card');
+
+    tiltCards.forEach((card) => {
+        card.classList.add('tilt-card');
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / centerY * -8;
+            const rotateY = (x - centerX) / centerX * 8;
+
+            card.style.transform =
+                `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            card.style.transition = 'transform 0.1s ease';
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            card.style.transition = 'transform 0.5s ease';
+        });
+    });
+
+    // ==========================================
+    // MICRO MAGNETIC HOVER
+    // ==========================================
+    const magneticElements = document.querySelectorAll('.btn, .social-icon');
 
     magneticElements.forEach((el) => {
+        el.classList.add('ripple-btn');
+
         el.addEventListener('mousemove', (e) => {
             const rect = el.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+            el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
         });
 
         el.addEventListener('mouseleave', () => {
             el.style.transform = 'translate(0, 0)';
         });
     });
+
+    // ==========================================
+    // RIPPLE EFFECT ON BUTTONS
+    // ==========================================
+    document.querySelectorAll('.btn').forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // ==========================================
+    // TEXT REVEAL ON SCROLL
+    // ==========================================
+    function setupTextReveal() {
+        const titles = document.querySelectorAll('.section-title');
+        titles.forEach((title) => {
+            const words = title.textContent.trim().split(/\s+/);
+            title.innerHTML = words.map((w) =>
+                `<span class="reveal-word" style="display:inline-block">${w}</span>`
+            ).join(' ');
+
+            const wordSpans = title.querySelectorAll('.reveal-word');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        wordSpans.forEach((span, i) => {
+                            setTimeout(() => {
+                                span.classList.add('revealed');
+                            }, i * 50);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(title);
+        });
+    }
+
+    setupTextReveal();
 
     // ==========================================
     // NAVBAR SCROLL
@@ -252,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((res) => res.json())
             .then((data) => {
                 if (data.success && data.has_photo) {
-                    container.innerHTML = `<img src="${data.url}?t=${Date.now()}" alt="Aksan Kuraji Dermawan">`;
+                    container.innerHTML = `<img src="${data.url}?t=${Date.now()}" alt="Aksan Kuraji Dermawan" class="loading-blur" onload="this.classList.add('loaded')">`;
                 }
             })
             .catch(() => {});
