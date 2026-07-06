@@ -1475,6 +1475,213 @@ body {
 }
 
 /* ============================================
+   DIAGONAL PARTICLE STREAM (estafet)
+   ============================================ */
+.diagonal-stream {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.diagonal-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(6,182,212,0.15));
+    animation: diagonalFlow linear infinite;
+    opacity: 0;
+}
+
+.diagonal-particle:nth-child(1)  { left: 5%;   top: -10px;  animation-duration: 12s; animation-delay: 0s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(2)  { left: 12%;  top: -20px;  animation-duration: 15s; animation-delay: -2s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(3)  { left: 20%;  top: -15px;  animation-duration: 18s; animation-delay: -5s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(4)  { left: 28%;  top: -5px;   animation-duration: 14s; animation-delay: -3s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(5)  { left: 35%;  top: -25px;  animation-duration: 20s; animation-delay: -7s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(6)  { left: 42%;  top: -8px;   animation-duration: 11s; animation-delay: -1s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(7)  { left: 48%;  top: -18px;  animation-duration: 16s; animation-delay: -6s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(8)  { left: 55%;  top: -12px;  animation-duration: 13s; animation-delay: -4s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(9)  { left: 62%;  top: -22px;  animation-duration: 17s; animation-delay: -8s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(10) { left: 70%;  top: -6px;   animation-duration: 19s; animation-delay: -2s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(11) { left: 75%;  top: -16px;  animation-duration: 14s; animation-delay: -9s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(12) { left: 82%;  top: -10px;  animation-duration: 12s; animation-delay: -3s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(13) { left: 88%;  top: -20px;  animation-duration: 16s; animation-delay: -5s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(14) { left: 93%;  top: -14px;  animation-duration: 15s; animation-delay: -7s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(15) { left: 98%;  top: -8px;   animation-duration: 18s; animation-delay: -1s; width: 3px; height: 3px; }
+
+/* Second wave offset */
+.diagonal-particle:nth-child(16) { left: 3%;   top: -40%;   animation-duration: 14s; animation-delay: -10s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(17) { left: 10%;  top: -45%;   animation-duration: 17s; animation-delay: -12s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(18) { left: 18%;  top: -42%;   animation-duration: 12s; animation-delay: -15s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(19) { left: 25%;  top: -50%;   animation-duration: 19s; animation-delay: -11s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(20) { left: 32%;  top: -38%;   animation-duration: 15s; animation-delay: -14s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(21) { left: 38%;  top: -44%;   animation-duration: 13s; animation-delay: -18s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(22) { left: 45%;  top: -48%;   animation-duration: 18s; animation-delay: -13s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(23) { left: 52%;  top: -36%;   animation-duration: 11s; animation-delay: -16s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(24) { left: 58%;  top: -46%;   animation-duration: 16s; animation-delay: -19s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(25) { left: 65%;  top: -40%;   animation-duration: 14s; animation-delay: -12s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(26) { left: 72%;  top: -43%;   animation-duration: 20s; animation-delay: -17s; width: 4px; height: 4px; }
+.diagonal-particle:nth-child(27) { left: 78%;  top: -37%;   animation-duration: 12s; animation-delay: -11s; width: 2px; height: 2px; }
+.diagonal-particle:nth-child(28) { left: 85%;  top: -49%;   animation-duration: 17s; animation-delay: -15s; width: 3px; height: 3px; }
+.diagonal-particle:nth-child(29) { left: 90%;  top: -41%;   animation-duration: 15s; animation-delay: -20s; width: 5px; height: 5px; }
+.diagonal-particle:nth-child(30) { left: 96%;  top: -47%;   animation-duration: 13s; animation-delay: -14s; width: 2px; height: 2px; }
+
+@keyframes diagonalFlow {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    95% {
+        opacity: 0.05;
+    }
+    100% {
+        transform: translate(30px, 120vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   HORIZONTAL DRIFT LINES
+   ============================================ */
+.drift-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.drift-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124,58,237,0.06), rgba(6,182,212,0.06), transparent);
+    animation: driftSlide linear infinite;
+}
+
+.drift-line:nth-child(1)  { top: 15%;  width: 40%;  left: -40%;  animation-duration: 25s; animation-delay: 0s; }
+.drift-line:nth-child(2)  { top: 30%;  width: 30%;  left: -30%;  animation-duration: 30s; animation-delay: -5s; }
+.drift-line:nth-child(3)  { top: 45%;  width: 50%;  left: -50%;  animation-duration: 28s; animation-delay: -10s; }
+.drift-line:nth-child(4)  { top: 55%;  width: 35%;  left: -35%;  animation-duration: 22s; animation-delay: -3s; }
+.drift-line:nth-child(5)  { top: 65%;  width: 45%;  left: -45%;  animation-duration: 32s; animation-delay: -8s; }
+.drift-line:nth-child(6)  { top: 75%;  width: 25%;  left: -25%;  animation-duration: 26s; animation-delay: -15s; }
+.drift-line:nth-child(7)  { top: 85%;  width: 38%;  left: -38%;  animation-duration: 24s; animation-delay: -2s; }
+.drift-line:nth-child(8)  { top: 95%;  width: 42%;  left: -42%;  animation-duration: 29s; animation-delay: -12s; }
+
+@keyframes driftSlide {
+    0% { transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { opacity: 0.6; }
+    90% { opacity: 0.1; }
+    100% { transform: translateX(250vw); opacity: 0; }
+}
+
+/* ============================================
+   ANIMATED WAVE DIVIDERS
+   ============================================ */
+.wave-divider svg path {
+    animation: wavePulse 4s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+
+.wave-divider:nth-child(odd) svg path {
+    animation-delay: -2s;
+}
+
+@keyframes wavePulse {
+    0% { transform: scaleY(1); opacity: 0.8; }
+    100% { transform: scaleY(1.15); opacity: 1; }
+}
+
+/* ============================================
+   EXTENDED FLOATING SHAPES (full page)
+   ============================================ */
+.floating-shapes-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-shape-page {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.03), transparent 70%);
+    animation: floatShapePage 30s ease-in-out infinite;
+}
+
+.floating-shape-page:nth-child(1) {
+    width: 400px; height: 400px;
+    top: 10%; left: -5%;
+    animation-duration: 35s;
+    animation-delay: 0s;
+}
+
+.floating-shape-page:nth-child(2) {
+    width: 250px; height: 250px;
+    top: 40%; right: -3%;
+    animation-duration: 28s;
+    animation-delay: -7s;
+}
+
+.floating-shape-page:nth-child(3) {
+    width: 350px; height: 350px;
+    bottom: 15%; left: 15%;
+    animation-duration: 32s;
+    animation-delay: -14s;
+}
+
+.floating-shape-page:nth-child(4) {
+    width: 200px; height: 200px;
+    top: 70%; left: 50%;
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.floating-shape-page:nth-child(5) {
+    width: 300px; height: 300px;
+    bottom: 5%; right: 10%;
+    animation-duration: 30s;
+    animation-delay: -10s;
+}
+
+@keyframes floatShapePage {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+    }
+    20% {
+        transform: translate(40px, -60px) scale(1.05);
+    }
+    40% {
+        transform: translate(-30px, 40px) scale(0.95);
+    }
+    60% {
+        transform: translate(50px, 20px) scale(1.02);
+    }
+    80% {
+        transform: translate(-20px, -40px) scale(0.98);
+    }
+}
+
+/* ============================================
    LOADING BLUR FOR IMAGES
    ============================================ */
 img.loading-blur {
