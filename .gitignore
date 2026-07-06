@@ -1,0 +1,8 @@
+/.idea
+/node_modules
+.DS_Store
+Thumbs.db
+*.log
+uploads/cv/.gitkeep
+uploads/awards/.gitkeep
+uploads/profile/.gitkeep

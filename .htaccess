@@ -1,0 +1,5 @@
+Options -Indexes
+
+<FilesMatch "\.(json|md|gitkeep)$">
+    Require all denied
+</FilesMatch>

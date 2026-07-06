@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKSAN KURAJI DERMAWAN | Fullstack Developer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">Portofolio</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#hero" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#awards" class="nav-link">Awards</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <a href="admin/" class="nav-admin-btn" title="Admin Panel"><i class="fas fa-lock"></i></a>
+            <div class="nav-toggle" id="navToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Fullstack Developer</div>
+            <h1 class="hero-title">AKSAN KURAJI<br>DERMAWAN</h1>
+            <p class="hero-subtitle">S.Kom | <span id="typed-text"></span></p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">Lihat Karya <i class="fas fa-arrow-right"></i></a>
+                <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+            </div>
+            <div class="hero-social">
+                <a href="https://github.com/snjiwan" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/aksan-kuraji-a3634929a/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/sn_jiwann?igsh=MTFpdjdxNTIzMnowdQ==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aksankrkj27@gmail.com" target="_blank" class="social-icon"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll Down</span>
+            <div class="mouse"><div class="wheel"></div></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Tentang <span>Saya</span></h2>
+            <div class="about-grid">
+                <div class="about-image" data-aos="fade-right">
+                    <div class="about-img-frame">
+                        <div class="about-img-placeholder" id="profilePhoto">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h3>S1 Sistem Informasi — Fullstack Web Developer</h3>
+                    <p>Lulusan Program Studi Sistem Informasi yang memiliki minat dan keahlian di bidang pengembangan web dan desain antarmuka pengguna. Selama masa studi, saya telah mengembangkan keterampilan sebagai seorang Web Developer serta berhasil menyelesaikan berbagai proyek pengembangan perangkat lunak.</p>
+                    <p>Saya memiliki pengalaman dalam pengembangan website, perancangan sistem, serta desain user interface yang berfokus pada kenyamanan dan pengalaman pengguna. Kombinasi kemampuan teknis dan desain memungkinkan saya untuk memahami serta berkontribusi pada berbagai aspek dalam pengembangan perangkat lunak.</p>
+                    <p>Saya memiliki ketertarikan pada integrasi teknologi dan desain untuk menciptakan solusi digital yang efektif dan pengalaman pengguna yang optimal.</p>
+                    <div class="about-info">
+                        <div class="info-item">
+                            <span class="info-label">Nama</span>
+                            <span class="info-value">Aksan Kuraji Dermawan</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Pendidikan</span>
+                            <span class="info-value">S1 Sistem Informasi (S.Kom)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Role</span>
+                            <span class="info-value">Fullstack Web Developer | Front End Developer</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">aksankrkj27@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Lokasi</span>
+                            <span class="info-value">Kota Bogor, Indonesia</span>
+                        </div>
+                    </div>
+                    <div class="about-cta">
+                        <a href="#" class="btn btn-primary" id="downloadCvBtn"><i class="fas fa-download"></i> Download CV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Keahlian <span>Saya</span></h2>
+            <div class="skills-filter" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="frontend">Frontend</button>
+                <button class="filter-btn" data-filter="backend">Backend</button>
+                <button class="filter-btn" data-filter="database">Database</button>
+                <button class="filter-btn" data-filter="tools">Tools</button>
+            </div>
+            <div class="skills-grid" id="skillsGrid">
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="100">
+                    <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                    <h4>HTML & CSS</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="92"></div></div>
+                </div>
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="150">
+                    <div class="skill-icon"><i class="fab fa-js"></i></div>
+                    <h4>JavaScript</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+                </div>
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="200">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div>
+                    <h4>jQuery</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
+                </div>
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="250">
+                    <div class="skill-icon"><i class="fab fa-bootstrap"></i></div>
+                    <h4>Bootstrap</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="88"></div></div>
+                </div>
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="300">
+                    <div class="skill-icon"><i class="fab fa-wordpress"></i></div>
+                    <h4>WordPress</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+                </div>
+                <div class="skill-card" data-category="frontend" data-aos="flip-up" data-aos-delay="350">
+                    <div class="skill-icon"><i class="fab fa-flutter"></i></div>
+                    <h4>Flutter</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
+                </div>
+                <div class="skill-card" data-category="backend" data-aos="flip-up" data-aos-delay="100">
+                    <div class="skill-icon"><i class="fab fa-php"></i></div>
+                    <h4>PHP</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="88"></div></div>
+                </div>
+                <div class="skill-card" data-category="backend" data-aos="flip-up" data-aos-delay="150">
+                    <div class="skill-icon"><i class="fab fa-laravel"></i></div>
+                    <h4>Laravel</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+                </div>
+                <div class="skill-card" data-category="backend" data-aos="flip-up" data-aos-delay="200">
+                    <div class="skill-icon"><i class="fab fa-python"></i></div>
+                    <h4>Python</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
+                </div>
+                <div class="skill-card" data-category="database" data-aos="flip-up" data-aos-delay="100">
+                    <div class="skill-icon"><i class="fas fa-database"></i></div>
+                    <h4>MySQL</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="100">
+                    <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                    <h4>Git & GitHub</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="88"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="150">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div>
+                    <h4>VS Code</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="90"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="200">
+                    <div class="skill-icon"><i class="fab fa-bitbucket"></i></div>
+                    <h4>Bitbucket</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="75"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="250">
+                    <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h4>Figma</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="78"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="300">
+                    <div class="skill-icon"><i class="fas fa-cart-plus"></i></div>
+                    <h4>WooCommerce</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
+                </div>
+                <div class="skill-card" data-category="tools" data-aos="flip-up" data-aos-delay="350">
+                    <div class="skill-icon"><i class="fas fa-cubes"></i></div>
+                    <h4>ACF</h4>
+                    <div class="skill-bar"><div class="skill-progress" data-progress="78"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Pengalaman & <span>Pendidikan</span></h2>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Jan 2025 - Feb 2026</div>
+                    <div class="timeline-content">
+                        <h3>Web Development</h3>
+                        <h4>Akmanda Media</h4>
+                        <p>Menyesuaikan tampilan sesuai desain Figma. Mengerjakan proyek sesuai deadline dengan hasil yang memuaskan. Mengembangkan dan mengelola website berbasis WordPress termasuk plugins, theme, WooCommerce, dan Advanced Custom Fields (ACF).</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Jan 2024 - Des 2024</div>
+                    <div class="timeline-content">
+                        <h3>Komisi 4 Kominfo</h3>
+                        <h4>MPM STMIK Jawa Barat</h4>
+                        <p>Mengelola informasi, menyusun dan menyebarluaskan informasi yang relevan. Membangun dan menjaga hubungan baik dengan pihak internal maupun eksternal organisasi.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Agus 2023 - Des 2023</div>
+                    <div class="timeline-content">
+                        <h3>FullStack Web Development</h3>
+                        <h4>LearningX</h4>
+                        <p>Bertanggung jawab atas semua tugas pengembangan web fullstack. Bertanggung jawab atas penyelesaian project akhir dengan hasil yang optimal.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Mar 2023 - Des 2023</div>
+                    <div class="timeline-content">
+                        <h3>Ketua Divisi PSDM</h3>
+                        <h4>HIMASI STMIK Jawa Barat</h4>
+                        <p>Melakukan evaluasi dan monitoring divisi. Melakukan pemberdayaan anggota serta pengelolaan sumber daya organisasi secara efektif.</p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Okt 2021 - Lulus</div>
+                    <div class="timeline-content">
+                        <h3>S1 Sistem Informasi (S.SI)</h3>
+                        <h4>Universitas Al-Ghifari, Bandung</h4>
+                        <p>Lulus dengan IPK 3.54. Aktif dalam organisasi himpunan dan berbagai kegiatan pengembangan diri di bidang teknologi informasi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Proyek <span>Terbaru</span></h2>
+            <div class="projects-grid">
+                <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="project-image">
+                        <div class="project-img-placeholder"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>E-Commerce App</h3>
+                        <p>Platform e-commerce full-stack dengan Laravel & React.js, fitur payment gateway, manajemen inventory.</p>
+                        <div class="project-tags">
+                            <span>Laravel</span>
+                            <span>React</span>
+                            <span>MySQL</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="project-image">
+                        <div class="project-img-placeholder"><i class="fas fa-chart-line"></i></div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Dashboard Analytics</h3>
+                        <p>Sistem dashboard interaktif dengan visualisasi data real-time menggunakan Chart.js dan Vue.js.</p>
+                        <div class="project-tags">
+                            <span>Vue.js</span>
+                            <span>Chart.js</span>
+                            <span>Node.js</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="project-image">
+                        <div class="project-img-placeholder"><i class="fas fa-hospital"></i></div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="#" class="project-github"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Klinik Management</h3>
+                        <p>Sistem informasi manajemen klinik dengan fitur pendaftaran online, rekam medis, dan laporan.</p>
+                        <div class="project-tags">
+                            <span>PHP</span>
+                            <span>MySQL</span>
+                            <span>Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section class="section awards" id="awards">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Penghargaan & <span>Sertifikat</span></h2>
+            <p class="section-desc" data-aos="fade-up">Penghargaan dan sertifikat yang pernah saya raih selama perjalanan karir.</p>
+            <div class="awards-grid" id="awardsGrid" data-aos="fade-up">
+                <div class="awards-empty">
+                    <i class="fas fa-trophy"></i>
+                    <p>Belum ada penghargaan yang diupload.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Hubungi <span>Saya</span></h2>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aksankrkj27@gmail.com" target="_blank" style="color:#94a3b8;text-decoration:none;font-size:14px;">aksankrkj27@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Telepon</h4>
+                            <p>+62 895-6119-72261</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Lokasi</h4>
+                            <p>Kota Bogor, Indonesia</p>
+                        </div>
+                    </div>
+                    <div class="contact-social">
+                        <a href="https://github.com/snjiwan" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/aksan-kuraji-a3634929a/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/sn_jiwann?igsh=MTFpdjdxNTIzMnowdQ==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/62895611972261" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" data-aos="fade-left">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Subjek" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="5" placeholder="Pesan Anda" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-paper-plane"></i> Kirim Pesan
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 AKSAN KURAJI DERMAWAN. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#hero" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <script src="js/script.js"></script>
+</body>
+</html>
