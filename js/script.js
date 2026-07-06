@@ -164,6 +164,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
+    // CUSTOM SMOOTH SCROLL
+    // ==========================================
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                const offset = 80;
+                const targetPos = target.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({
+                    top: targetPos,
+                    behavior: 'smooth',
+                });
+            }
+        });
+    });
+
+    // ==========================================
     // POSITION SECTION NODES
     // ==========================================
     function positionNodes() {
@@ -517,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((res) => res.json())
             .then((data) => {
                 if (data.success && data.has_photo) {
-                    container.innerHTML = `<img src="${data.url}?t=${Date.now()}" alt="Aksan Kuraji Dermawan" class="loading-blur" onload="this.classList.add('loaded')">`;
+                    container.innerHTML = `<img src="${data.url}?t=${Date.now()}" alt="Aksan Kuraji Dermawan" class="loading-blur" loading="lazy" onload="this.classList.add('loaded')">`;
                 }
             })
             .catch(() => {});
@@ -542,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         card.setAttribute('data-aos', 'zoom-in');
                         card.innerHTML = `
                             <div class="award-image">
-                                <img src="${award.file_url}" alt="${award.title}">
+                                <img src="${award.file_url}" alt="${award.title}" loading="lazy">
                             </div>
                             <div class="award-info">
                                 <h4>${award.title}</h4>
